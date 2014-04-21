@@ -36,6 +36,7 @@
  o legendpos (string) position of the legend on the chart [default `"east"`]. Other options are `"north"`, `"south"`, `"west"`
  o sort (bool) sort values numerically [default `true`]
  o angle (number) set starting angle. 90 = 12-o'clock, 0=3-o'clock. [default 0]
+ o anglefixed (bool) starting angle is fixed [default `false`]
  o }
  **
  = (object) path element of the popup
@@ -123,7 +124,7 @@
 
             for (i = 0; i < len; i++) {
             var mangle;
-                if (typeof opts.angle !== 'undefined'){
+                if (opts.anglefixed === true){
                     mangle = angle + 360 * values[i] / total / 2;
                 } else {
                     mangle = angle - 360 * values[i] / total / 2;
