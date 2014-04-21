@@ -35,6 +35,7 @@
  o legendmark (string) symbol used as a bullet point in legend that has the same colour as the chart slice [default `"circle"`]
  o legendpos (string) position of the legend on the chart [default `"east"`]. Other options are `"north"`, `"south"`, `"west"`
  o sort (bool) sort values numerically [default `true`]
+ o angle (number) set starting angle. 90 = 12-o'clock, 0=3-o'clock. [default 0]
  o }
  **
  = (object) path element of the popup
@@ -54,7 +55,7 @@
             series = paper.set(),
             order = [],
             len = values.length,
-            angle = 0,
+            angle = opts.angle || 0,
             total = 0,
             others = 0,
             cut = opts.maxSlices || 100,
@@ -121,11 +122,15 @@
             others && values.splice(len) && (values[cut].others = true);
 
             for (i = 0; i < len; i++) {
-                var mangle = angle - 360 * values[i] / total / 2;
-
-                if (!i) {
-                    angle = 90 - mangle;
+            var mangle;
+                if (typeof opts.angle !== 'undefined'){
+                    mangle = angle + 360 * values[i] / total / 2;
+                } else {
                     mangle = angle - 360 * values[i] / total / 2;
+                    if (!i) {
+                        angle = 90 - mangle;
+                        mangle = angle - 360 * values[i] / total / 2;
+                    }
                 }
 
                 if (opts.init) {
